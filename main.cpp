@@ -93,6 +93,33 @@ namespace item_3 {
 
 
 
+namespace item_4{
+
+
+	class EquipmentPice {
+	public:
+		EquipmentPice(int IDNumber) {}
+	};
+
+	void test() {
+
+		
+		// EquipmentPice bestPrice[10];  // 无法构造成功，编译器发现没有默认的构造函数
+		// EquipmentPice* bestPrice = new EquipmentPice[10];  // 编译器给出的错误和上面一样
+
+		//typedef EquipmentPice* PEP;
+		//PEP bestPrice[10];
+		//PEP* pBestPrice = new PEP[10];
+
+		//分配足够的空间
+		void* rawMemory = operator new[](10 * sizeof(EquipmentPice));
+		EquipmentPice* bestPrices = static_cast<EquipmentPice*>(rawMemory);
+		for (int i = 0; i < 10; ++i) {
+			new (&bestPrices[i]) EquipmentPice(i);
+		}
+	}
+}
+
 int main() {
 	item_3::test();
 	return 0;
